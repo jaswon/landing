@@ -1,6 +1,6 @@
 const h2c = String.fromCodePoint; // unicode hex -> character
 
-function balloon (text) {
+function balloon (text) { // https://github.com/piuccio/cowsay
   let lines = (function ( str, width ) { // https://j11y.io/snippets/wordwrap-for-javascript/
     if (!str) return str;
     var regex = String.raw`.{1,${width}}(\s|$)|.{${width}}|.+$`;
@@ -72,7 +72,8 @@ function cowsay (text) {
     'cls': () => {
       while (lines.lastChild) lines.removeChild(lines.lastChild);
       return ""
-    }
+    },
+    'sudo': () => '<video src="veryimportant.webm" height="200" autoplay></video>',
   }
 
   function print(content, res) {
@@ -96,6 +97,8 @@ function cowsay (text) {
       print(curLine.innerHTML);
       if (tokens[0] in commands) {
         print(evaluate(tokens), true)
+      } else {
+        print(`${tokens[0]}: Need to be root (sudo)`,true)
       }
       curLine.innerHTML = "";
       terminal.scrollTop = terminal.scrollHeight
