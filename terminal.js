@@ -26,7 +26,7 @@
       } else {
         curLine.innerHTML = curLine.innerHTML.slice(0,-1)
       }
-    } else if (e.keyCode > 64 && e.keyCode < 91 || e.keyCode == 32) {
+    } else if (e.key.length == 1) {
       curLine.innerHTML += e.key
     }
     e.preventDefault()
