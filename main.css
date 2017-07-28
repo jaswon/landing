@@ -16,6 +16,7 @@
 }
 
 html, body {
+  overflow: hidden;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -101,11 +102,11 @@ body {
   background-color: black;
   opacity: 0;
   z-index: -1;
-  transition: z-index 0s step-end 0.5s, opacity 0.5s linear;
   box-sizing: border-box;
   margin: calc(var(--pad) / -2);
   padding: var(--pad);
   overflow: auto;
+  outline: none;
 }
 
 #terminal::-webkit-scrollbar {
@@ -174,6 +175,10 @@ body {
   margin:0;
   padding-left:0;
   list-style-type: none;
+}
+
+#lines > li {
+  white-space: pre-wrap;
 }
 
 #caret {
