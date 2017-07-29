@@ -107,6 +107,7 @@ body {
   padding: var(--pad);
   overflow: auto;
   outline: none;
+  cursor: text;
 }
 
 #terminal::-webkit-scrollbar {
