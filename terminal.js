@@ -74,6 +74,7 @@ function cowsay (text) {
       return ""
     },
     'sudo': () => '<video src="veryimportant.webm" height="200" autoplay></video>',
+    'yt': (...query) => `<a href="http://www.youtube.com/search?q=${query.join("%20").trim()}">${h2c(0x1F4FA)}</a>`
   }
 
   function print(content, res) {

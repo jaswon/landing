@@ -35,6 +35,10 @@ body {
   align-items: center;
 }
 
+a {
+  text-decoration: none;
+}
+
 .bordered {
   border: solid 2px var(--fg-col);
   padding: calc(var(--pad) / 2);
@@ -76,7 +80,6 @@ body {
 }
 
 #links a {
-  text-decoration: none;
   color: var(--fg-col);
 }
 
