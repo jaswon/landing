@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "new tab",
   "description": "personal new tab",
-  "version": "0.0.0.2",
+  "version": "0.0.0.3",
   "permissions": ["tabs"],
   "chrome_url_overrides" : {
     "newtab": "newtab.html"
