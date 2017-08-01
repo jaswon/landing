@@ -144,6 +144,7 @@ function playRPS (choice) {
     } else if (e.keyCode == 13) { // enter
       historyPos = 0
       let command = curLine.innerHTML.trim()
+      if ("" == command) return print(" ")
       history.unshift(command)
       let tokens = command.split(" ")
       tokens[0] = convertAlias(tokens[0])
