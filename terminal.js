@@ -184,4 +184,6 @@ function playRPS (choice) {
       }
     }
   }
+
+  window.history.replaceState({},"","/")
 })()
