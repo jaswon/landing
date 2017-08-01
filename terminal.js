@@ -40,6 +40,38 @@ function cowsay (text) {
   `
 }
 
+const rps = {
+  rules: [
+    [0,1,-1],
+    [-1,0,1],
+    [1,-1,0]
+  ],
+  moves: {
+    'rock':0,
+    'r':0,
+    'paper':1,
+    'p':1,
+    'scissor':2,
+    's':2
+  },
+  icons: [ '👊','🖐','✌️' ]
+}
+
+function playRPS (choice) {
+  var move = Math.floor(Math.random()*3)
+  var rules = rps.rules[move]
+  if (choice in rps.moves) {
+    var result = ""
+    switch (rules[rps.moves[choice]]) {
+      case -1: result = "you lose!"; break;
+      case  0: result = "tie..."; break;
+      case  1: result = "you win!"; break;
+    }
+    return `${result} 🤖${rps.icons[move]} -> ${rps.icons[rps.moves[choice]]}😀`
+  }
+  return "you have to play either r(ock), p(aper), or s(cissor)"
+}
+
 (function() {
   const trigger = "'"
 
@@ -74,7 +106,7 @@ function cowsay (text) {
       return ""
     },
     'sudo': () => '<video src="veryimportant.webm" height="200" autoplay></video>',
-    'yt': (...query) => `<a href="http://www.youtube.com/search?q=${query.join("%20").trim()}">${h2c(0x1F4FA)}</a>`
+    'rps': choice => playRPS(choice)
   }
 
   function print(content, res) {
