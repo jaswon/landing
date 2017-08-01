@@ -110,7 +110,7 @@ function playRPS (choice) {
       while (lines.lastChild) lines.removeChild(lines.lastChild);
       return ""
     },
-    'sudo': () => '<video src="http://jaswon5791.github.io/landing/veryimportant.webm" height="200" autoplay></video>',
+    'sudo': () => '<video src="veryimportant.webm" height="200" autoplay></video>',
     'rps': choice => playRPS(choice),
     'help': () => (function(arr,perLine) { // grid formatted
       print("are you lost? :)",1)
