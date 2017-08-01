@@ -55,7 +55,7 @@ const rps = {
     's':2
   },
   icons: [ '👊','🖐','✌️' ],
-  faces: [ '😞','😐','😀' ]
+  faces: [ '😭','😐','😀' ]
 }
 
 function playRPS (choice) {
@@ -82,6 +82,9 @@ function playRPS (choice) {
   const curLine = document.querySelector("#input")
 
   var terminalOpen = false;
+
+  const history = []
+  var historyPos = 0
 
   const aliases = (function(rev) {
     let ret = {}
@@ -133,8 +136,16 @@ function playRPS (choice) {
   }
 
   function onTermKey (e) {
-    if (e.keyCode == 13) { // enter
-      let tokens = curLine.innerHTML.trim().split(" ")
+    if (e.keyCode == 38) { // up arrow
+      if (historyPos >= history.length-1) curLine.innerHTML = history.length?history[history.length-1]:""
+      else curLine.innerHTML = history[historyPos++]
+    } else if (e.keyCode == 40) { // down arrow
+      curLine.innerHTML = historyPos?history[--historyPos]:""
+    } else if (e.keyCode == 13) { // enter
+      historyPos = 0
+      let command = curLine.innerHTML.trim()
+      history.unshift(command)
+      let tokens = command.split(" ")
       tokens[0] = convertAlias(tokens[0])
       print(curLine.innerHTML);
       if (tokens[0] in commands) {
