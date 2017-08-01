@@ -54,20 +54,22 @@ const rps = {
     'scissor':2,
     's':2
   },
-  icons: [ '👊','🖐','✌️' ]
+  icons: [ '👊','🖐','✌️' ],
+  faces: [ '😞','😐','😀' ]
 }
 
 function playRPS (choice) {
   var move = Math.floor(Math.random()*3)
   var rules = rps.rules[move]
+  var result = rules[rps.moves[choice]]
   if (choice in rps.moves) {
-    var result = ""
-    switch (rules[rps.moves[choice]]) {
-      case -1: result = "you lose!"; break;
-      case  0: result = "tie..."; break;
-      case  1: result = "you win!"; break;
+    var resultString = ""
+    switch (result) {
+      case -1: resultString = "->"; break;
+      case  0: resultString = "<->"; break;
+      case  1: resultString = "<-"; break;
     }
-    return `${result} 🤖${rps.icons[move]} -> ${rps.icons[rps.moves[choice]]}😀`
+    return `🤖${rps.icons[move]}${resultString}${rps.icons[rps.moves[choice]]}${rps.faces[result+1]}`
   }
   return "you have to play either r(ock), p(aper), or s(cissor)"
 }
