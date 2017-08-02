@@ -110,7 +110,7 @@ function playRPS (pmove) {
         .map(l=>l.reduce((a,x,i,s)=>a+x.padEnd(maxLen+5),""))
         .join("\n")
     })(Object.keys(commands),4),
-    'async': () => new Promise(cb => setTimeout(cb,2000)).then(()=>"hi")
+    'async': () => new Promise(cb => setTimeout(cb,10000)).then(()=>"hi")
   }
 
   function display(content, res, before) {
@@ -123,7 +123,7 @@ function playRPS (pmove) {
     })
   }
 
-  var loadingSeq = ['.','..','...','....']
+  var loadingSeq = '⠀⠁⠂⠄⡀⡈⡐⡠⣀⣁⣂⣄⣌⣔⣤⣥⣦⣮⣶⣷⣿⣿⢿⠿⡻⠻⢛⠛⠝⡙⠙⠩⢉⠉⠊⠌⡈⠈⠐⠠⢀'
   var step = 0
 
   function print(content, res) {
@@ -132,7 +132,7 @@ function playRPS (pmove) {
     tmp.innerHTML = '-'
     var loading = setInterval(function() {
       tmp.innerHTML = `- ${loadingSeq[step++%loadingSeq.length]}`
-    }, 200)
+    }, 100)
     lines.appendChild(tmp)
     terminal.scrollTop = terminal.scrollHeight
     Promise.resolve(content).then(v => {
