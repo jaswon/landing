@@ -58,19 +58,12 @@ const rps = {
   faces: [ '😭','😐','😀' ]
 }
 
-function playRPS (choice) {
-  var move = Math.floor(Math.random()*3)
-  var rules = rps.rules[move]
-  var result = rules[rps.moves[choice]]
-  if (choice in rps.moves) {
-    var resultString = ""
-    switch (result) {
-      case -1: resultString = "->"; break;
-      case  0: resultString = "<->"; break;
-      case  1: resultString = "<-"; break;
-    }
-    return `🤖${rps.icons[move]}${resultString}${rps.icons[rps.moves[choice]]}${rps.faces[result+1]}`
-  }
+function playRPS (pmove) {
+  var cmove = Math.floor(Math.random()*3)
+  var rules = rps.rules[cmove]
+  var result = rules[rps.moves[pmove]]
+  if (pmove in rps.moves)
+    return `🤖${rps.icons[cmove]}${result>-1?"<":""}-${result<1?">":""}${rps.icons[rps.moves[pmove]]}${rps.faces[result+1]}`
   return "you have to play either r(ock), p(aper), or s(cissor)"
 }
 
