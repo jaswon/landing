@@ -98,6 +98,7 @@ function playRPS (pmove) {
     'echo': (...args) => args.join(" "),
     'cowsay': (...args) => cowsay(args.join(" ")),
     'cls': () => {
+      curLine.innerHTML = ""
       while (lines.lastChild) lines.removeChild(lines.lastChild);
       return ""
     },
@@ -146,8 +147,9 @@ function playRPS (pmove) {
       history.unshift(command)
       let tokens = command.split(" ")
       tokens[0] = convertAlias(tokens[0])
+      let output = evaluate(tokens)
       print(curLine.innerHTML);
-      if (tokens[0] in commands) print(evaluate(tokens), true)
+      if (tokens[0] in commands) print(output, true)
       curLine.innerHTML = "";
       terminal.scrollTop = terminal.scrollHeight
     } else if (e.keyCode == 8) { // backspace
