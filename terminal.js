@@ -1,6 +1,7 @@
 const h2c = String.fromCodePoint; // unicode hex -> character
 
 function balloon (text) { // https://github.com/piuccio/cowsay
+  if ("" == text) text = "moo"
   let lines = (function ( str, width ) { // https://j11y.io/snippets/wordwrap-for-javascript/
     if (!str) return str;
     var regex = String.raw`.{1,${width}}(\s|$)|.{${width}}|.+$`;
