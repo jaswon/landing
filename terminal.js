@@ -66,6 +66,12 @@ function playRPS (pmove) {
   return "you have to play either r(ock), p(aper), or s(cissor)"
 }
 
+const getLocation = () => new Promise(res =>
+  navigator.geolocation.getCurrentPosition(pos =>
+    res([pos.coords.latitude, pos.coords.longitude])
+  )
+);
+
 (function() {
   const trigger = "'"
 
@@ -111,7 +117,10 @@ function playRPS (pmove) {
         .map(l=>l.reduce((a,x,i,s)=>a+x.padEnd(maxLen+5),""))
         .join("\n")
     })(Object.keys(commands),4),
-    'async': () => new Promise(cb => setTimeout(cb,10000)).then(()=>"hi")
+    'async': () => new Promise(cb => setTimeout(cb,10000)).then(()=>"hi"),
+    'weather': () => getLocation().then(([lat,long]) => {
+      return `${lat}, ${long}`
+    })
   }
 
   function display(content, res, before) {
