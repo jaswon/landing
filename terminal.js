@@ -6,9 +6,7 @@ function balloon (text) { // https://github.com/piuccio/cowsay
     var regex = String.raw`.{1,${width}}(\s|$)|.{${width}}|.+$`;
     return str.match( RegExp(regex, 'g') );
   })(text, 40).map(s => s.trim())
-  let maxLength = lines.reduce((prev, cur) => {
-    return (prev>cur.length)?prev:cur.length
-  },0)
+  let maxLength = lines.reduce((prev, cur) => (prev>cur.length)?prev:cur.length,0)
   let delims = {
     f: ["/","\\"],
     m: ["|","|"],
@@ -16,17 +14,17 @@ function balloon (text) { // https://github.com/piuccio/cowsay
   }
   if (lines.length == 1) {
     return [
-      " " + new Array(maxLength+3).join("_"),
+      " " + "_".repeat(maxLength + 2),
       "< " + lines[0] + " >",
-      " " + new Array(maxLength+3).join("-")
+      " " + "-".repeat(maxLength + 2)
     ].join("\n")
   } else {
-    let balloon = [" " + new Array(maxLength+3).join("_")]
+    let balloon = [" " + "_".repeat(maxLength + 2)]
     for (var i = 0 ; i < lines.length ; ++i) {
       let delim = delims[i==0?"f":(i==lines.length-1?"l":"m")]
-      balloon.push(delim[0]+" "+lines[i]+(new Array(maxLength - lines[i].length + 1)).join(" ")+" "+delim[1])
+      balloon.push(delim[0]+" "+lines[i].padEnd(maxLength)+" "+delim[1])
     }
-    return balloon.concat(" " + new Array(maxLength+3).join("-")).join("\n")
+    return balloon.concat(" " + "-".repeat(maxLength + 2)).join("\n")
   }
 }
 
