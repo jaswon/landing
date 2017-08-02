@@ -127,20 +127,18 @@ function playRPS (pmove) {
   var step = 0
 
   function print(content, res) {
-    if (!res) display(content)
-    else {
-      var tmp = document.createElement("li")
-      var loading = setInterval(function() {
-        tmp.innerHTML = `- ${loadingSeq[step++%loadingSeq.length]}`
-      }, 200)
-      lines.appendChild(tmp)
-      terminal.scrollTop = terminal.scrollHeight
-      Promise.resolve(content).then(v => {
-        clearInterval(loading)
-        display(v, true, tmp)
-        tmp.remove()
-      })
-    }
+    if (!res) return display(content)
+    var tmp = document.createElement("li")
+    var loading = setInterval(function() {
+      tmp.innerHTML = `- ${loadingSeq[step++%loadingSeq.length]}`
+    }, 200)
+    lines.appendChild(tmp)
+    terminal.scrollTop = terminal.scrollHeight
+    Promise.resolve(content).then(v => {
+      clearInterval(loading)
+      display(v, true, tmp)
+      tmp.remove()
+    })
   }
 
   function evaluate(tokens) {
