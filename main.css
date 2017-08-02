@@ -123,13 +123,13 @@ a {
 }
 
 #terminal.show {
-  animation-duration: 0.5s;
+  animation-duration: 0.3s;
   animation-fill-mode: both;
   animation-name: showTerminal;
 }
 
 #terminal.hide {
-  animation-duration: 0.5s;
+  animation-duration: 0.3s;
   animation-fill-mode: both;
   animation-name: hideTerminal;
 }
