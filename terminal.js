@@ -112,13 +112,21 @@ function playRPS (pmove) {
   }
 
   function print(content, res) {
-    if (content != "")
-      content.split('\n').forEach(function(l) {
-        var line = document.createElement("li")
-        line.innerHTML = (res?"- ":"> ")+l
-        lines.appendChild(line)
-        terminal.scrollTop = terminal.scrollHeight
-      })
+    var tmp = document.createElement("li")
+    tmp.innerHTML = "wow"
+    lines.appendChild(tmp)
+    terminal.scrollTop = terminal.scrollHeight
+    Promise.resolve(content).then(v => {
+      tmp.remove()
+      if (v != "")
+        v.split('\n').forEach(function(l) {
+          var line = document.createElement("li")
+          line.innerHTML = (res?"- ":"> ")+l
+          lines.appendChild(line)
+          terminal.scrollTop = terminal.scrollHeight
+        })
+    })
+
   }
 
   function evaluate(tokens) {
