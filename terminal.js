@@ -109,25 +109,38 @@ function playRPS (pmove) {
       return arr.reduce((a,x,i,s)=>(i%perLine)?a:a.concat([s.slice(i,i+perLine)]),[])
         .map(l=>l.reduce((a,x,i,s)=>a+x.padEnd(maxLen+5),""))
         .join("\n")
-    })(Object.keys(commands),4)
+    })(Object.keys(commands),4),
+    'async': () => new Promise(cb => setTimeout(cb,2000)).then(()=>"hi")
   }
 
-  function print(content, res) {
-    var tmp = document.createElement("li")
-    tmp.innerHTML = "wow"
-    lines.appendChild(tmp)
-    terminal.scrollTop = terminal.scrollHeight
-    Promise.resolve(content).then(v => {
-      tmp.remove()
-      if (v != "")
-        v.split('\n').forEach(function(l) {
-          var line = document.createElement("li")
-          line.innerHTML = (res?"- ":"> ")+l
-          lines.appendChild(line)
-          terminal.scrollTop = terminal.scrollHeight
-        })
+  function display(content, res, before) {
+    content != "" && content.split('\n').forEach(function(l) {
+      var line = document.createElement("li")
+      line.innerHTML = (res?"- ":"> ")+l
+      if (before) lines.insertBefore(line,before)
+      else lines.appendChild(line)
+      terminal.scrollTop = terminal.scrollHeight
     })
+  }
 
+  var loadingSeq = ['.','..','...','....']
+  var step = 0
+
+  function print(content, res) {
+    if (!res) display(content)
+    else {
+      var tmp = document.createElement("li")
+      var loading = setInterval(function() {
+        tmp.innerHTML = `- ${loadingSeq[step++%loadingSeq.length]}`
+      }, 200)
+      lines.appendChild(tmp)
+      terminal.scrollTop = terminal.scrollHeight
+      Promise.resolve(content).then(v => {
+        clearInterval(loading)
+        display(v, true, tmp)
+        tmp.remove()
+      })
+    }
   }
 
   function evaluate(tokens) {
@@ -147,9 +160,8 @@ function playRPS (pmove) {
       history.unshift(command)
       let tokens = command.split(" ")
       tokens[0] = convertAlias(tokens[0])
-      let output = evaluate(tokens)
       print(curLine.innerHTML);
-      if (tokens[0] in commands) print(output, true)
+      if (tokens[0] in commands) print(evaluate(tokens), true)
       curLine.innerHTML = "";
       terminal.scrollTop = terminal.scrollHeight
     } else if (e.keyCode == 8) { // backspace
