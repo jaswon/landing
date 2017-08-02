@@ -129,6 +129,7 @@ function playRPS (pmove) {
   function print(content, res) {
     if (!res) return display(content)
     var tmp = document.createElement("li")
+    tmp.innerHTML = '-'
     var loading = setInterval(function() {
       tmp.innerHTML = `- ${loadingSeq[step++%loadingSeq.length]}`
     }, 200)
