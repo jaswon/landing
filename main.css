@@ -11,6 +11,7 @@
   --pad: 16px;
   font-size: 24px;
   font-family: 'VT323', monospace;
+  font-variant-ligatures: none;
   user-select: none;
   -moz-user-select: none;
 }
