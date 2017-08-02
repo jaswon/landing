@@ -103,7 +103,6 @@ function playRPS (pmove) {
       while (lines.lastChild) lines.removeChild(lines.lastChild);
       return ""
     },
-    'sudo': () => '<video src="veryimportant.webm" height="200" autoplay></video>',
     'rps': choice => playRPS(choice),
     'help': () => (function(arr,perLine) { // grid formatted
       print("are you lost? :)",1)
@@ -142,11 +141,7 @@ function playRPS (pmove) {
       let tokens = command.split(" ")
       tokens[0] = convertAlias(tokens[0])
       print(curLine.innerHTML);
-      if (tokens[0] in commands) {
-        print(evaluate(tokens), true)
-      } else {
-        print(`${tokens[0]}: Need to be root (sudo)`,true)
-      }
+      if (tokens[0] in commands) print(evaluate(tokens), true)
       curLine.innerHTML = "";
       terminal.scrollTop = terminal.scrollHeight
     } else if (e.keyCode == 8) { // backspace
