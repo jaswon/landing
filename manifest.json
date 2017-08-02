@@ -4,7 +4,9 @@
   "description": "personal new tab",
   "version": "0.0.0.3",
   "permissions": ["tabs"],
+  "minimum_chrome_version": "46",
   "chrome_url_overrides" : {
     "newtab": "newtab.html"
-  }
+  },
+  "content_security_policy": "default-src 'self'; script-src 'self' 'sha256-ZtamxzKgScX5t6QHZQdGzN4TE4oeM9HMQRFDZR8Rr0Q='"
  }
