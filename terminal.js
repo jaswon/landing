@@ -105,12 +105,12 @@ function playRPS (pmove) {
     },
     'rps': choice => playRPS(choice),
     'help': () => (function(arr,perLine) { // grid formatted
-      print("are you lost? :)",1)
+      print("are you lost? 🤔",1)
       const maxLen = arr.reduce((p,c)=>p>c.length?p:c.length,0)
       return arr.reduce((a,x,i,s)=>(i%perLine)?a:a.concat([s.slice(i,i+perLine)]),[])
         .map(l=>l.reduce((a,x,i,s)=>a+x.padEnd(maxLen+5),""))
         .join("\n")
-    })(Object.keys(commands).concat(Object.keys(aliases)),4)
+    })(Object.keys(commands),4)
   }
 
   function print(content, res) {
