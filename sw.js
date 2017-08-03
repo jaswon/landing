@@ -1,5 +1,3 @@
-//h ttps://github.com/chriscoyier/Simple-Offline-Site
-
 "use strict";
 
 console.log('WORKER: executing.');
@@ -14,10 +12,10 @@ var version = 'v1::';
    then the service worker won't be installed either.
 */
 var offlineFundamentals = [
-  '/',
-  '/terminal.js',
-  '/main.css',
-  '/VT323.woff2'
+  '',
+  'terminal.js',
+  'main.css',
+  'VT323.woff2'
 ];
 
 /* The install event fires when the service worker is first installed.
