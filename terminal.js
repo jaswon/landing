@@ -77,6 +77,7 @@ const getLocation = () => new Promise((res,rej) => {
 const cors_proxy = 'https://cors-anywhere.herokuapp.com/'
 const weather_api = `${cors_proxy}http://api.openweathermap.org/data/2.5/weather?appid=facace1962b06f4dc4e7d1b31ff1ab06`;
 const geoip_api = `${cors_proxy}http://freegeoip.net/json/`
+const dict_api = `${cors_proxy}http://www.onelook.com/`
 const cors_headers = { headers: new Headers({ 'Origin':'https://jaswon.tech' }) }
 const ten_min = 1000*60*10;
 var lastRequested = Date.now();
@@ -103,7 +104,8 @@ var lastRequested = Date.now();
   })({
     'random': ['rand'],
     'hello': ['hi','hey'],
-    'cowsay': ['moo']
+    'cowsay': ['moo'],
+    'define': ['def']
   })
 
   const convertAlias = command => (command in aliases)?aliases[command]:command
@@ -136,7 +138,16 @@ var lastRequested = Date.now();
       return fetch(`${weather_api}&lat=${lat}&lon=${long}&units=metric`, cors_headers)
         .then(res => res.json())
         .then(res => `${res.name}: ${res.main.temp}˚C (${res.main.temp_min}˚C-${res.main.temp_max}˚C) w/ ${res.weather[0].description}`)
-    })
+    }),
+    'define': word => fetch(`${dict_api}?w=${word}&xml=1`, cors_headers)
+      .then(r => r.text())
+      .then(r => new DOMParser().parseFromString(r,'text/xml'))
+      .then(r => Array.from(r.firstChild.children)
+        .filter(e => e.localName == "OLQuickDef")
+        .map(e => e.innerHTML.trim())
+        .map(e => (e.indexOf('&') != -1)?e.slice(0,e.indexOf('&')):e )
+        .join("\n")
+      )
   }
 
   function display(content, res, before) {

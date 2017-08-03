@@ -184,7 +184,6 @@ a {
 
 #lines > li, #input {
   white-space: pre-wrap;
-  height: 30px;
   line-height: 30px;
 }
 
