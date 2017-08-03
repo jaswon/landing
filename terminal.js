@@ -110,6 +110,12 @@ var lastRequested = Date.now();
 
   const convertAlias = command => (command in aliases)?aliases[command]:command
 
+  const links = ['reddit','facebook','youtube','github','gmail','messenger','amazon','massdrop'].reduce((a,x) => {
+    a[x] = `http://${x}.com`
+    return a
+  }, {})
+  links['blog'] = 'http://jaswon.tech'
+
   const commands = {
     'random': max => max?`${h2c(0x1F3B2)} ${Math.floor(Math.random()*max)}`:'gimme a numbah',
     'hello': () => `hi!${h2c(0x1F44B)}`,
@@ -197,7 +203,8 @@ var lastRequested = Date.now();
       let tokens = command.split(" ")
       tokens[0] = convertAlias(tokens[0])
       print(curLine.innerHTML);
-      if (tokens[0] in commands) print(evaluate(tokens), true)
+      if (tokens[0] in links) window.location.href = links[tokens[0]]
+      else if (tokens[0] in commands) print(evaluate(tokens), true)
       curLine.innerHTML = "";
       terminal.scrollTop = terminal.scrollHeight
     } else if (e.keyCode == 8) { // backspace
