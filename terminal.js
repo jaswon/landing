@@ -126,7 +126,6 @@ var lastRequested = Date.now();
         .map(l=>l.reduce((a,x,i,s)=>a+x.padEnd(maxLen+5),""))
         .join("\n")
     })(Object.keys(commands),4),
-    'async': () => new Promise(cb => setTimeout(cb,10000)).then(()=>"hi"),
     'weather': () => getLocation()
       .catch(err => {
         return fetch(geoip_api, cors_headers)
