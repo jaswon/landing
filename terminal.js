@@ -72,6 +72,11 @@ const getLocation = () => new Promise(res =>
   )
 );
 
+const owm = 'facace1962b06f4dc4e7d1b31ff1ab06';
+const weather_api = "http://api.openweathermap.org/data/2.5/weather";
+const ten_min = 1000*60*10;
+var lastRequested = Date.now();
+
 (function() {
   const trigger = "'"
 
@@ -119,7 +124,9 @@ const getLocation = () => new Promise(res =>
     })(Object.keys(commands),4),
     'async': () => new Promise(cb => setTimeout(cb,10000)).then(()=>"hi"),
     'weather': () => getLocation().then(([lat,long]) => {
-      return `${lat}, ${long}`
+      return fetch(`${weather_api}?appid=${owm}&lat=${lat}&lon=${long}&units=metric`)
+        .then(res => res.json())
+        .then(res => `${res.name}: ${res.main.temp}˚C (${res.main.temp_min}˚C-${res.main.temp_max}˚C) w/${res.weather[0].description}`)
     })
   }
 
