@@ -69,7 +69,7 @@ function playRPS (pmove) {
 const getLocation = () => new Promise((res,rej) => {
   navigator.geolocation.getCurrentPosition(
     pos => res([pos.coords.latitude, pos.coords.longitude]),
-    err => rej(err),
+    rej,
     { timeout: 3000, maximumAge: ten_min }
   )
 });
@@ -118,7 +118,7 @@ var lastRequested = Date.now();
       while (lines.lastChild) lines.removeChild(lines.lastChild);
       return ""
     },
-    'rps': choice => playRPS(choice),
+    'rps': playRPS,
     'help': () => (function(arr,perLine) { // grid formatted
       print("are you lost? 🤔",1)
       const maxLen = arr.reduce((p,c)=>p>c.length?p:c.length,0)
