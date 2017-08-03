@@ -113,7 +113,7 @@ self.addEventListener("fetch", function(event) {
           caches
             // We open a cache to store the response for this request.
             .open(version + 'fundamentals')
-            .then(function add(cache) {
+            .then(function (cache) {
               /* We store the response for this request. It'll later become
                  available to caches.match(event.request) calls, when looking
                  for cached responses.
