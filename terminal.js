@@ -66,18 +66,18 @@ function playRPS (pmove) {
   return "you have to play either r(ock), p(aper), or s(cissor)"
 }
 
-const getLocation = () => new Promise(res =>
-  navigator.geolocation.getCurrentPosition(pos =>
-    res([pos.coords.latitude, pos.coords.longitude])
+const getLocation = () => new Promise((res,rej) => {
+  navigator.geolocation.getCurrentPosition(
+    pos => res([pos.coords.latitude, pos.coords.longitude]),
+    err => rej(err),
+    { timeout: 3000, maximumAge: ten_min }
   )
-);
+});
 
-const owm = 'facace1962b06f4dc4e7d1b31ff1ab06';
-const weather_api = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather";
-const cors_headers = {
-  headers: new Headers({ 'Origin':'https://jaswon.tech' }),
-  mode: 'cors'
-}
+const cors_proxy = 'https://cors-anywhere.herokuapp.com/'
+const weather_api = `${cors_proxy}http://api.openweathermap.org/data/2.5/weather?appid=facace1962b06f4dc4e7d1b31ff1ab06`;
+const geoip_api = `${cors_proxy}http://freegeoip.net/json/`
+const cors_headers = { headers: new Headers({ 'Origin':'https://jaswon.tech' }) }
 const ten_min = 1000*60*10;
 var lastRequested = Date.now();
 
@@ -127,10 +127,16 @@ var lastRequested = Date.now();
         .join("\n")
     })(Object.keys(commands),4),
     'async': () => new Promise(cb => setTimeout(cb,10000)).then(()=>"hi"),
-    'weather': () => getLocation().then(([lat,long]) => {
-      return fetch(`${weather_api}?appid=${owm}&lat=${lat}&lon=${long}&units=metric`, cors_headers)
+    'weather': () => getLocation()
+      .catch(err => {
+        return fetch(geoip_api, cors_headers)
+          .then(res => res.json())
+          .then(res => [res.latitude, res.longitude])
+      })
+      .then(([lat,long]) => {
+      return fetch(`${weather_api}&lat=${lat}&lon=${long}&units=metric`, cors_headers)
         .then(res => res.json())
-        .then(res => `${res.name}: ${res.main.temp}˚C (${res.main.temp_min}˚C-${res.main.temp_max}˚C) w/${res.weather[0].description}`)
+        .then(res => `${res.name}: ${res.main.temp}˚C (${res.main.temp_min}˚C-${res.main.temp_max}˚C) w/ ${res.weather[0].description}`)
     })
   }
 
