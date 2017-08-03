@@ -208,7 +208,7 @@ var lastRequested = Date.now();
       curLine.innerHTML = "";
       terminal.scrollTop = terminal.scrollHeight
     } else if (e.keyCode == 8) { // backspace
-      if (e.ctrlKey) {
+      if (e.ctrlKey || e.altKey) {
         curLine.innerHTML = curLine.innerHTML
           .trim()
           .split(" ")
