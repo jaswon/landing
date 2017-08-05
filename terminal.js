@@ -154,7 +154,8 @@ var lastRequested = Date.now();
         .join("\n")
       ),
     'quote': () => fetch(`${quote_api}`, cors_headers)
-      .then(r => r.json())
+      .then(r => r.text())
+      .then(r => JSON.parse(r.replace(/\\'/g,"'")))
       .then(r => `"${r.quoteText.trim()}"\n\t\t- ${r.quoteAuthor}`)
   }
 
