@@ -147,6 +147,7 @@ var lastRequested = Date.now();
       .then(r => Array.from(r.firstChild.children)
         .filter(e => e.localName == "OLQuickDef")
         .map(e => e.innerHTML.trim())
+        .filter(e => !e.startsWith("name"))
         .map(e => (e.indexOf('&') != -1)?e.slice(0,e.indexOf('&')):e )
         .join("\n")
       )
