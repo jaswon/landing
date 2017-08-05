@@ -126,7 +126,7 @@ var lastRequested = Date.now();
     },
     'rps': playRPS,
     'help': () => (function(arr,perLine) { // grid formatted
-      print("are you lost? 🤔",1)
+      print("are you lost? 🤔","-")
       const maxLen = arr.reduce((p,c)=>p>c.length?p:c.length,0)
       return arr.reduce((a,x,i,s)=>(i%perLine)?a:a.concat([s.slice(i,i+perLine)]),[])
         .map(l=>l.reduce((a,x,i,s)=>a+x.padEnd(maxLen+5),""))
@@ -158,10 +158,10 @@ var lastRequested = Date.now();
       .then(r => `"${r.quoteText.trim()}"\n\t\t- ${r.quoteAuthor}`)
   }
 
-  function display(content, res, before) {
+  function display(content, p, before) {
     content != "" && content.split('\n').forEach(function(l) {
       var line = document.createElement("li")
-      line.innerHTML = (res?"- ":"> ")+l
+      line.innerHTML = p+" "+l
       if (before) lines.insertBefore(line,before)
       else lines.appendChild(line)
       terminal.scrollTop = terminal.scrollHeight
@@ -171,8 +171,8 @@ var lastRequested = Date.now();
   var loadingSeq = '⠀⠁⠂⠄⡀⡈⡐⡠⣀⣁⣂⣄⣌⣔⣤⣥⣦⣮⣶⣷⣿⣿⢿⠿⡻⠻⢛⠛⠝⡙⠙⠩⢉⠉⠊⠌⡈⠈⠐⠠⢀'
   var step = 0
 
-  function print(content, res) {
-    if (!res) return display(content)
+  function print(content, p) {
+    if (!p) return display(content, ">")
     var tmp = document.createElement("li")
     tmp.innerHTML = '-'
     var loading = setInterval(function() {
@@ -182,7 +182,7 @@ var lastRequested = Date.now();
     terminal.scrollTop = terminal.scrollHeight
     Promise.resolve(content).then(v => {
       clearInterval(loading)
-      display(v, true, tmp)
+      display(v, p, tmp)
       tmp.remove()
     })
   }
@@ -206,7 +206,7 @@ var lastRequested = Date.now();
       tokens[0] = convertAlias(tokens[0])
       print(curLine.innerHTML);
       if (tokens[0] in links) window.location.href = links[tokens[0]]
-      else if (tokens[0] in commands) print(evaluate(tokens), true)
+      else if (tokens[0] in commands) print(evaluate(tokens), '-')
       curLine.innerHTML = "";
       terminal.scrollTop = terminal.scrollHeight
     } else if (e.keyCode == 8) { // backspace
@@ -231,5 +231,5 @@ var lastRequested = Date.now();
   terminal.addEventListener("focusout", function() { terminal.focus() })
 
   // motd
-  print(commands['quote'](), true)
+  print(commands['quote'](), " ")
 })()
