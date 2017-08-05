@@ -86,6 +86,7 @@ var lastRequested = Date.now();
   const terminal = document.querySelector("#terminal")
   const lines = document.querySelector('#lines')
   const curLine = document.querySelector("#input")
+  const caret = document.querySelector("#caret")
 
   const history = []
   var historyPos = 0
@@ -222,5 +223,6 @@ var lastRequested = Date.now();
 
   terminal.focus()
   terminal.addEventListener("keydown",onTermKey)
+  terminal.addEventListener("focusin", function() { caret.className = "blink" })
   terminal.addEventListener("focusout", function() { terminal.focus() })
 })()

@@ -84,14 +84,17 @@ a {
 }
 
 #caret {
+  color: black;
+  background-color: black;
+}
+
+#caret.blink {
   animation: blink 1.2s steps(1) infinite;
-  color: var(--fg-col);
-  background-color: var(--fg-col);
 }
 
 @keyframes blink {
   50% {
-    color: black;
-    background-color: black;
+    color: var(--fg-col);
+    background-color: var(--fg-col);
   }
 }
