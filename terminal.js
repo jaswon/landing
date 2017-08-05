@@ -83,13 +83,9 @@ const ten_min = 1000*60*10;
 var lastRequested = Date.now();
 
 (function() {
-  const trigger = "'"
-
   const terminal = document.querySelector("#terminal")
   const lines = document.querySelector('#lines')
   const curLine = document.querySelector("#input")
-
-  var terminalOpen = false;
 
   const history = []
   var historyPos = 0
@@ -218,33 +214,12 @@ var lastRequested = Date.now();
         curLine.innerHTML = curLine.innerHTML.slice(0,-1)
       }
     } else if (e.key.length == 1) {
-      if (!(e.key == trigger && (e.ctrlKey || e.metaKey) )) curLine.innerHTML += e.key
+      curLine.innerHTML += e.key
     }
     e.preventDefault()
   }
 
-  document.querySelector("html").onkeydown = function(e) {
-    if (e.key == trigger && (e.ctrlKey || e.metaKey) ) {
-      terminalOpen = !terminalOpen
-      terminal.className = ""
-      terminal.className = terminalOpen?"show":"hide"
-      if (terminalOpen) {
-        terminal.focus()
-        terminal.addEventListener("keydown",onTermKey)
-      } else {
-        terminal.removeEventListener("keydown",onTermKey)
-      }
-    }
-  }
-
-  if ('serviceWorker' in navigator) {
-    console.log('CLIENT: service worker registration in progress.');
-    navigator.serviceWorker.register('sw.js').then(function() {
-      console.log('CLIENT: service worker registration complete.');
-    }, function() {
-      console.log('CLIENT: service worker registration failure.');
-    });
-  } else {
-    console.log('CLIENT: service worker is not supported.');
-  }
+  terminal.focus()
+  terminal.addEventListener("keydown",onTermKey)
+  terminal.addEventListener("focusout", function() { terminal.focus() })
 })()
