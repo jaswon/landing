@@ -78,6 +78,7 @@ const cors_proxy = 'https://cors-anywhere.herokuapp.com/'
 const weather_api = `${cors_proxy}http://api.openweathermap.org/data/2.5/weather?appid=facace1962b06f4dc4e7d1b31ff1ab06`;
 const geoip_api = `${cors_proxy}http://freegeoip.net/json/`
 const dict_api = `${cors_proxy}http://www.onelook.com/`
+const quote_api = `${cors_proxy}http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en`
 const cors_headers = { headers: new Headers({ 'Origin':'https://jaswon.tech' }) }
 const ten_min = 1000*60*10;
 var lastRequested = Date.now();
@@ -151,7 +152,10 @@ var lastRequested = Date.now();
         .filter(e => !e.startsWith("name"))
         .map(e => (e.indexOf('&') != -1)?e.slice(0,e.indexOf('&')):e )
         .join("\n")
-      )
+      ),
+    'quote': () => fetch(`${quote_api}`, cors_headers)
+      .then(r => r.json())
+      .then(r => `"${r.quoteText.trim()}"\n\t\t- ${r.quoteAuthor}`)
   }
 
   function display(content, res, before) {
@@ -215,14 +219,17 @@ var lastRequested = Date.now();
       } else {
         curLine.innerHTML = curLine.innerHTML.slice(0,-1)
       }
-    } else if (e.key.length == 1) {
+    } else if (e.key.length == 1 && !(e.metaKey || e.ctrlKey)) {
       curLine.innerHTML += e.key
     }
-    e.preventDefault()
+    if ((e.metaKey || e.ctrlKey) && ["r","l"].indexOf(e.key) < 0) e.preventDefault();
   }
 
   terminal.focus()
   terminal.addEventListener("keydown",onTermKey)
   terminal.addEventListener("focusin", function() { caret.className = "blink" })
   terminal.addEventListener("focusout", function() { terminal.focus() })
+
+  // motd
+  print(commands['quote'](), true)
 })()
