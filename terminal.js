@@ -156,7 +156,7 @@ var lastRequested = Date.now();
     'quote': () => fetch(`${quote_api}`, cors_headers)
       .then(r => r.text())
       .then(r => JSON.parse(r.replace(/\\'/g,"'")))
-      .then(r => `"${r.quoteText.trim()}"\n\t\t- ${r.quoteAuthor}`)
+      .then(r => `"${r.quoteText.trim()}"\n\t\t- ${r.quoteAuthor || "Anonymous"}`)
   }
 
   function display(content, p, before) {
