@@ -98,3 +98,8 @@ a {
     background-color: var(--fg-col);
   }
 }
+
+.svg-icon {
+  margin-bottom: -.2em;
+  height: 1em;
+}

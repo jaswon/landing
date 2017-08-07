@@ -169,20 +169,13 @@ var lastRequested = Date.now();
     })
   }
 
-  var loadingSeq = '⠀⠁⠂⠄⡀⡈⡐⡠⣀⣁⣂⣄⣌⣔⣤⣥⣦⣮⣶⣷⣿⣿⢿⠿⡻⠻⢛⠛⠝⡙⠙⠩⢉⠉⠊⠌⡈⠈⠐⠠⢀'
-  var step = 0
-
   function print(content, p) {
     if (!p) return display(content, ">")
     var tmp = document.createElement("li")
-    tmp.innerHTML = '-'
-    var loading = setInterval(function() {
-      tmp.innerHTML = `- ${loadingSeq[step++%loadingSeq.length]}`
-    }, 100)
+    tmp.innerHTML = '- <img class="svg-icon" src="loading.svg" />'
     lines.appendChild(tmp)
     terminal.scrollTop = terminal.scrollHeight
     Promise.resolve(content).then(v => {
-      clearInterval(loading)
       display(v, p, tmp)
       tmp.remove()
     })
