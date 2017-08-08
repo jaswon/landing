@@ -3,7 +3,7 @@
   "name": "new tab",
   "description": "personal new tab",
   "version": "0.0.0.5",
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "geolocation"],
   "minimum_chrome_version": "46",
   "chrome_url_overrides" : {
     "newtab": "index.html"

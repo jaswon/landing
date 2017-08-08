@@ -74,11 +74,10 @@ const getLocation = () => new Promise((res,rej) => {
   )
 });
 
-const cors_proxy = 'https://cors-anywhere.herokuapp.com/'
-const weather_api = `${cors_proxy}http://api.openweathermap.org/data/2.5/weather?appid=facace1962b06f4dc4e7d1b31ff1ab06`;
-const geoip_api = `${cors_proxy}http://freegeoip.net/json/`
-const dict_api = `${cors_proxy}http://www.onelook.com/`
-const quote_api = `${cors_proxy}http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en`
+const srv = 'https://srv.jaswon.tech'
+// const dict_api = `${cors_proxy}http://www.onelook.com/`
+const quote_api = `${srv}/quote`
+// const math_api = `${cors_proxy}http://newton.now.sh/`
 const cors_headers = { headers: new Headers({ 'Origin':'https://jaswon.tech' }) }
 const ten_min = 1000*60*10;
 var lastRequested = Date.now();
@@ -128,14 +127,13 @@ var lastRequested = Date.now();
     })(Object.keys(commands),4),
     'weather': () => getLocation()
       .catch(err => {
-        return fetch(geoip_api, cors_headers)
+        return fetch(`${srv}/location`, cors_headers)
           .then(res => res.json())
-          .then(res => [res.latitude, res.longitude])
+          .then(res => [res.lat, res.lon])
       })
       .then(([lat,long]) => {
-      return fetch(`${weather_api}&lat=${lat}&lon=${long}&units=metric`, cors_headers)
-        .then(res => res.json())
-        .then(res => `${res.name}: ${res.main.temp}˚C (${res.main.temp_min}˚C-${res.main.temp_max}˚C) w/ ${res.weather[0].description}`)
+      return fetch(`${srv}/weather?lat=${lat}&lon=${long}`)
+        .then(res => res.text())
     }),
     'define': word => fetch(`${dict_api}?w=${word}&xml=1`, cors_headers)
       .then(r => r.text())
@@ -147,10 +145,13 @@ var lastRequested = Date.now();
         .map(e => (e.indexOf('&') != -1)?e.slice(0,e.indexOf('&')):e )
         .join("\n")
       ),
-    'quote': () => fetch(`${quote_api}`, cors_headers)
-      .then(r => r.text(), err => "")
-      .then(r => JSON.parse(r.replace(/\\'/g,"'")))
-      .then(r => `"${r.quoteText.trim()}"\n\t\t- ${r.quoteAuthor || "Anonymous"}`, err => "")
+    'quote': () => fetch(`${quote_api}`)
+      .then(r => r.json())
+      .then(r => `"${r.quote}"\n\t\t- ${r.author || "Anonymous"}`),
+    'math': (...args) => fetch(`${math_api}/simplify/${args}`)
+      .then(r => r.json())
+      .then(console.log)
+      .then(r => "hi")
   }
 
   function display(content, p, before) {
