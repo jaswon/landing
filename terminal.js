@@ -70,13 +70,11 @@ const getLocation = () => new Promise((res,rej) => {
   navigator.geolocation.getCurrentPosition(
     pos => res([pos.coords.latitude, pos.coords.longitude]),
     rej,
-    { timeout: 3000, maximumAge: ten_min }
+    { timeout: 3000, maximumAge: 1000*60*10 }
   )
 });
 
 const srv = 'https://srv.jaswon.tech'
-const ten_min = 1000*60*10;
-var lastRequested = Date.now();
 
 (function() {
   const terminal = document.querySelector("#terminal")
@@ -137,10 +135,8 @@ var lastRequested = Date.now();
     'quote': () => fetch(`${srv}/quote`)
       .then(r => r.json())
       .then(r => `"${r.quote}"\n\t\t- ${r.author || "Anonymous"}`),
-    'math': (...args) => fetch(`${math_api}/simplify/${args}`)
-      .then(r => r.json())
-      .then(console.log)
-      .then(r => "hi")
+    'math': (...args) => fetch(`${srv}/math?q=${args.join(" ")}`)
+      .then(r => r.text())
   }
 
   function display(content, p, before) {
