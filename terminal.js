@@ -75,10 +75,6 @@ const getLocation = () => new Promise((res,rej) => {
 });
 
 const srv = 'https://srv.jaswon.tech'
-// const dict_api = `${cors_proxy}http://www.onelook.com/`
-const quote_api = `${srv}/quote`
-// const math_api = `${cors_proxy}http://newton.now.sh/`
-const cors_headers = { headers: new Headers({ 'Origin':'https://jaswon.tech' }) }
 const ten_min = 1000*60*10;
 var lastRequested = Date.now();
 
@@ -127,7 +123,7 @@ var lastRequested = Date.now();
     })(Object.keys(commands),4),
     'weather': () => getLocation()
       .catch(err => {
-        return fetch(`${srv}/location`, cors_headers)
+        return fetch(`${srv}/location`)
           .then(res => res.json())
           .then(res => [res.lat, res.lon])
       })
@@ -135,17 +131,10 @@ var lastRequested = Date.now();
       return fetch(`${srv}/weather?lat=${lat}&lon=${long}`)
         .then(res => res.text())
     }),
-    'define': word => fetch(`${dict_api}?w=${word}&xml=1`, cors_headers)
-      .then(r => r.text())
-      .then(r => new DOMParser().parseFromString(r,'text/xml'))
-      .then(r => Array.from(r.firstChild.children)
-        .filter(e => e.localName == "OLQuickDef")
-        .map(e => e.innerHTML.trim())
-        .filter(e => !e.startsWith("name"))
-        .map(e => (e.indexOf('&') != -1)?e.slice(0,e.indexOf('&')):e )
-        .join("\n")
-      ),
-    'quote': () => fetch(`${quote_api}`)
+    'define': word => fetch(`${srv}/dict?q=${word}`)
+      .then(r => r.json())
+      .then(r => r.map(v => `(${v.type}) ${v.defenition}`).join("\n")),
+    'quote': () => fetch(`${srv}/quote`)
       .then(r => r.json())
       .then(r => `"${r.quote}"\n\t\t- ${r.author || "Anonymous"}`),
     'math': (...args) => fetch(`${math_api}/simplify/${args}`)
