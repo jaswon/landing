@@ -202,7 +202,7 @@ const srv = 'https://srv.jaswon.tech';
     } else if (e.key.length == 1 && !(e.metaKey || e.ctrlKey)) {
       curLine.innerHTML += e.key
     }
-    if ((e.metaKey || e.ctrlKey) && ["r","l"].indexOf(e.key) < 0) e.preventDefault();
+    if ((e.metaKey || e.ctrlKey) && ["r","l","R"].indexOf(e.key) < 0) e.preventDefault();
   }
 
   terminal.focus()
