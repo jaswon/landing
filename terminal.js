@@ -191,13 +191,13 @@ const srv = 'https://srv.jaswon.tech';
       terminal.scrollTop = terminal.scrollHeight
     } else if (e.keyCode == 8) { // backspace
       if (e.ctrlKey || e.altKey) {
-        curLine.innerHTML = curLine.innerHTML
+        curLine.innerText = curLine.innerText
           .trim()
           .split(" ")
           .slice(0,-1)
           .join(" ")
       } else {
-        curLine.innerHTML = curLine.innerHTML.slice(0,-1)
+        curLine.innerText = curLine.innerText.slice(0,-1)
       }
     } else if (e.key.length == 1 && !(e.metaKey || e.ctrlKey)) {
       curLine.innerHTML += e.key
