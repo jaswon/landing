@@ -142,7 +142,7 @@ const srv = 'https://srv.jaswon.tech';
     'quote': () => fetch(`${srv}/quote`)
       .then(r => r.json())
       .then(r => `"${r.quote}"\n\t\t- ${r.author || "Anonymous"}`),
-    'math': (...args) => fetch(`${srv}/math?q=${args.join(" ")}`)
+    'wa': (...args) => fetch(`${srv}/wa?q=${args.join(" ")}`)
       .then(r => r.text())
   }
 
