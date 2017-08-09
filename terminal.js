@@ -94,7 +94,7 @@ const srv = 'https://srv.jaswon.tech';
     return ret
   })({
     'random': ['rand'],
-    'hello': ['hi','hey'],
+    'hello': ['hi','hey','hi!','hoi!','hoi','howdy','hallo'],
     'cowsay': ['moo'],
     'define': ['def']
   })
