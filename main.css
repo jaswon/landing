@@ -103,3 +103,67 @@ a {
   margin-bottom: -.2em;
   height: 1em;
 }
+
+.weather {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+  background-color: var(--fg-col);
+  -webkit-mask-size: 2em;
+  mask-size: 2em;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  vertical-align: text-bottom;
+}
+
+.weather.clear-day {
+  -webkit-mask-image: url(weather/clear-day.svg);
+  mask-image: url(weather/clear-day.svg);
+}
+
+.weather.clear-night {
+  -webkit-mask-image: url(weather/clear-night.svg);
+  mask-image: url(weather/clear-night.svg);
+}
+
+.weather.cloudy {
+  -webkit-mask-image: url(weather/cloudy.svg);
+  mask-image: url(weather/cloudy.svg);
+}
+
+.weather.fog {
+  -webkit-mask-image: url(weather/fog.svg);
+  mask-image: url(weather/fog.svg);
+}
+
+.weather.partly-cloudy-day {
+  -webkit-mask-image: url(weather/partly-cloudy-day.svg);
+  mask-image: url(weather/partly-cloudy-day.svg);
+}
+
+.weather.partly-cloudy-night {
+  -webkit-mask-image: url(weather/partly-cloudy-night.svg);
+  mask-image: url(weather/partly-cloudy-night.svg);
+}
+
+.weather.rain {
+  -webkit-mask-image: url(weather/rain.svg);
+  mask-image: url(weather/rain.svg);
+}
+
+.weather.sleet {
+  -webkit-mask-image: url(weather/sleet.svg);
+  mask-image: url(weather/sleet.svg);
+}
+
+.weather.snow {
+  -webkit-mask-image: url(weather/snow.svg);
+  mask-image: url(weather/snow.svg);
+}
+
+.weather.wind {
+  -webkit-mask-image: url(weather/wind.svg);
+  mask-image: url(weather/wind.svg);
+}

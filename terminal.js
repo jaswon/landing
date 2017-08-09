@@ -74,7 +74,7 @@ const getLocation = () => new Promise((res,rej) => {
   )
 });
 
-const srv = 'https://srv.jaswon.tech'
+const srv = 'https://srv.jaswon.tech';
 
 (function() {
   const terminal = document.querySelector("#terminal")
@@ -119,7 +119,7 @@ const srv = 'https://srv.jaswon.tech'
         .map(l=>l.reduce((a,x,i,s)=>a+x.padEnd(maxLen+5),""))
         .join("\n")
     })(Object.keys(commands),4),
-    'weather': () => getLocation()
+    'weather': arg => getLocation()
       .catch(err => {
         return fetch(`${srv}/location`)
           .then(res => res.json())
@@ -127,7 +127,14 @@ const srv = 'https://srv.jaswon.tech'
       })
       .then(([lat,long]) => {
       return fetch(`${srv}/weather?lat=${lat}&lon=${long}`)
-        .then(res => res.text())
+        .then(r => r.json())
+        .then(r => {
+          switch (arg) {
+            case 'day': return r.day
+            case 'week': return r.week
+            default: return `<div class="weather ${r.cur.icon}"></div> ${r.cur.temp}˚C ${r.cur.summary.toLowerCase()}`
+          }
+        })
     }),
     'define': word => fetch(`${srv}/dict?q=${word}`)
       .then(r => r.json())
